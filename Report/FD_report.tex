@@ -1,0 +1,490 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Journal Article
+% LaTeX Template
+% Version 2.0 (February 7, 2023)
+%
+% This template originates from:
+% https://www.LaTeXTemplates.com
+%
+% Author:
+% Vel (vel@latextemplates.com)
+%
+% License:
+% CC BY-NC-SA 4.0 (https://creativecommons.org/licenses/by-nc-sa/4.0/)
+%
+% NOTE: The bibliography needs to be compiled using the biber engine.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[
+	a4paper, % Paper size, use either a4paper or letterpaper
+	11pt, % Default font size, can also use 11pt or 12pt, although this is not recommended
+	%unnumberedsections, % Comment to enable section numbering
+	twoside, % Two side traditional mode where headers and footers change between odd and even pages, comment this option to make them fixed
+]{LTJournalArticle}
+
+\addbibresource{sample.bib} % BibLaTeX bibliography file
+
+\runninghead{Boeing Financial Report} % A shortened article title to appear in the running head, leave this command empty for no running head
+
+\footertext{School of Mathematics and Physics, University of Surrey} % Text to appear in the footer, leave this command empty for no footer text
+
+\setcounter{page}{1} % The page number of the first page, set this to a higher number if the article is to be part of an issue or larger work
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+%\title{Financial Assessment and Analysis of \\ 'The Boeing Company'} % Article title, use manual lines breaks ( ) to beautify the layout
+\title{The Boeing Company Financial Assessment: \\ Flight or Fight?}
+
+% Authors are listed in a comma-separated list with superscript numbers indicating affiliations
+% \thanks{} is used for any text that should be placed in a footnote on the first page, such as the corresponding author's email, journal acceptance dates, a copyright/license notice, keywords, etc
+\author{%
+	Lars Henden URN: 6625008\textsuperscript{1}
+}
+
+% Affiliations are output in the \date{} command
+\date{\footnotesize\textsuperscript{\textbf{1}}School of Mathematics and Physics, University of Surrey}
+
+% Full-width abstract
+\renewcommand{\maketitlehookd}{%
+	\begin{abstract}
+		\noindent A comprehensive statistical analysis is presented herein of Boeing's historical stock data.  
+		The degree of normality for the daily returns is examined, with joint quantification of the annualised volatility and drift. 
+		A hypothetical principal investment scenario enables an assessment of Boeing's return on capital, juxtaposed to alternative investment avenues.  
+		Exploring the future behaviour of the stock, by exploiting a 2-step Binomial option pricing model, recommendations can be drawn for prospective investors. 
+		With strong consideration of factors external to the stock market, successful investment strategies involve a reluctance in direct stock acquisition, favouring options contract procurement.
+	\end{abstract}
+}
+
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+\maketitle % Output the title section
+
+\section{Introduction}
+\subsection{The Company}
+Founded in 1916 by William Boeing, the Pacific Aero Products Company was a aircraft design and manufacturing enterprise with its first product, the B\&W Seaplane, undertaking its maiden flight June 15th, 1916.
+The company quickly grew and became one of the major air transportation companies in the USA, renaming itself to `The Boeing Company'.
+With the advent of WWII, Boeing became a significant defense contractor producing the over 12,000 of the infamous B-17 strategic bombers \cite{Story_boeing}.
+Catalysed by war, rapid technological advancements throughout the 20th century saw the Boeing strive forward as one of the top defense contractors in the USA with their Boeing Defense, Space and Security (BDSS) division.
+These technological advancements also saw the birth of commercial air travel in the late 1960s, with the Boeing Commercial Airplanes (BCA) division spearheading the sector with the production of one of the first airliners, the Boeing 737.
+The final division of the main company infrastructure is Boeing Global Services (BGS).
+Established on the 1st July 2017, the division offers a wide range of services usually pertaining to products or industries related to their partner divisions \cite{Boeing_WEBSITE}.
+The Boeing company has grown to a global corporation with over USD\$137 Billion in total assets \cite{Boeing_finance_report}, and remaining consistently in the Fortune Global 500 \cite{Fortune_500}.
+\begin{figure}
+	\includegraphics[width=\linewidth,keepaspectratio]{Figures/Historial_stock_low.png}
+	\caption{Monthly adjusted closing price for BA stock. Left to right, dashed lines: 9/11, financial crisis, BGS established, flight 302 crash. Shaded area: 737 MAX inquiry.}
+	\label{fig:StockHist}
+\end{figure}
+Boeing's historical stock behavior is closely linked to its aviation division.
+BCA accounted for 43.5\% of the total companies revenue in 2023 \cite{Boeing_finance_report}, so the state of global air travel and current affairs in aviation can have significant ramifications on the company.
+This relationship is portrayed consistently through the evolution of the Boeing (BA) stock price seen Fig. \ref{fig:StockHist}.
+From 1 billion air passengers in 1985, the total number of air passengers globally has risen steadily to 4.6 billion by the end of 2019 \cite{AirTrafficData}, a trend mirrored by Boeing's stock which is punctuated with several key events.
+The 9/11 terrorist attacks, the 2008 financial crisis, Ethiopian Airlines flight 302 crash on the 10th of March 2019, with the subsequent multi-year investigation into the Boeing 737 MAX, and with the 2020 Coronavirus pandemic; All impacted the aviation industry and consequently Boeing's stock.
+It is salient to mention the sharp stock price rise around 2017, disconnected to the air passenger trend, likely occurred due to the establishment of the BGS division, which in 2023, was the only Boeing division to not operate at a loss with USD\$19.1 billion in revenue \cite{Boeing_finance_report}.
+\subsection{Financial Methods}
+Arguably the most pivotal theory in financial derivatives and option pricing, the Black-Scholes-Merton (BSM) model outlines the necessary mathematical framework to model the price of an underlying asset, and evaluate the price of financial derivatives, in particular, options contracts.
+The groundwork theory, by Black and Scholes (BS), reworked the paradigm of how to approach asset and option pricing \cite{BS_1973}.
+Rooting back to La Bachelier's \textit{Th\'eorie de la sp\'eculation}, they proposed a model based on the stochasticity of the market and with a set of associated assumptions, which formulated a unique and grounded mathematical structure to model asset price shifts, which could be extended for option pricing determination.
+The BS theory facilitated transformations in risk and portfolio management decisions for corporations, businesses, investors and traders.
+Optimization of investment strategies and greater understandings of the dynamics of asset/option pricing all stemmed from the critical theory, and is highlighted in depth in `A Conversation with Myron Scholes' \cite{Scholes_inter}.
+The BS theory was strengthened by Merton (\textbf{Appendix \ref*{App:C}}), with set of weakened assumptions providing additional avenues to extended the theory and widened the applicability range of the model, proliferating its fundamental role in financial markets to this day.
+Merton's alternative approach and its motivations, are portrayed in the interview `In Pursuit of the Perfect Portfolio: Robert C. Merton' \cite{Merton_inter}.
+Finally, as a consequence of the BSM model, Rendelman formulated an approximated mathematical model to determine the asset price evolution and option pricing for financial derivatives \cite{Rendelman_1979}.
+The `2-step Binomial' model proved to be an excellent tool to reliably approximate stock price evolution, providing a simpler methodology in comparison to the more exhaustive BSM model.
+The model is detailed in depth in Section \ref{sec:Bi_model}.
+
+\subsection{Report Objective}
+This report aims to provide a comprehensive analysis of Boeing's stock history, exploring distributions, data trends, and utilizing mathematical models to provide a detailed outlook and investment recommendations.
+Historical stock data is accessed from the Yahoo Finance website \cite{yahoo}, and was downloaded into CSV files of varying frequencies: daily, weekly, monthly.
+Data extraction, analysis, and graphical presentation was executed via a Python script written by the author and accessible in \textbf{Appendix \ref*{App:D}}.
+
+\section{Analysis Part I}
+\label{sec:one}
+\subsection{Daily Returns}
+\begin{figure}[ht]
+	\includegraphics[width=\linewidth,keepaspectratio]{Figures/D_Returns_Hist_LOW.png}
+	\caption{Black: Percentage (decimal fraction) daily returns of BA stock (1962-2024) in a probability density histogram. Red: Gaussian fit with $n = 10^{7}$ (sample size) and $b=10^{3}$ (bin number). Blue: Gaussian fit with $n = 15674$ (daily returns equivalent) and $b=100$ (daily returns equivalent). Gaussian fit parameters: $\mu=2.90\times10^{-4}$, $\sigma=1.80\times10^{-2}$ from daily returns data.}
+	\label{fig:D_returns}
+\end{figure}
+
+\noindent The daily returns of the BA stock, from 1962 to 2024, have been collected and plotted in a probability density histogram in Fig. \ref{fig:D_returns}. 
+The mean ($\mu=2.90\times10^{-4}$) and standard deviation ($\sigma=1.80\times10^{-2}$) of this data was used to construct two comparative Gaussians. 
+The first, being an enhanced plot containing a significantly larger sample size and number of bins, to provide a visualization of an idealistic gaussian, whereas the reduced plot shows a gaussian with identical sample size and bin numbers for direct comparison with the returns data.
+A strong similarity can be justified with the returns mirroring a horizontally compressed, vertically extended Gaussian distribution, with a mean of $\mu=2.90\times10^{-4}\approx0$ being characteristic of normally distributed data.
+Notably, the stock yields a large proportion of returns close to zero (Highest central bins), suggesting a lack of volatility in the stock price from day to day and medium/large fluctuations are infrequent in comparison.
+Beyond a simple graphical assessment of the normality, as seen in Fig. \ref{fig:D_returns}, analytical normality tests (Table. \ref{tab:D_Norm_tests}) \cite{Norm_tests} and an advanced graphical test (Fig. \ref{fig:QQ}), were conducted to more quantitatively assess the normality of the returns data.
+
+\begin{table}[ht] % Single column table {}~][]#;
+	\centering
+	\resizebox{\columnwidth}{!}{\begin{tabular}{c c c c}
+		\toprule
+		%\multicolumn{4}{c}{Normality Tests} \\
+		%\cmidrule(r){1-4}
+		Test & Statistic & $P_{value}$ & Reject Null Hypothesis?  \\
+		\midrule
+		Kolmogorov-Smirnov & 0.473 & 0.000 & Yes \\
+		Shapiro-Wilk  & 0.956 & $1.41\times10^{-55}$ & Yes \\
+		\cmidrule(r){2-3}
+		 & Statistic & Critical Value (5\%) &  \\
+		 \cmidrule(r){2-3}
+		 Anderson-Darling & 126 & 0.918 & Yes \\
+		 \bottomrule
+	\end{tabular}}
+	\caption{Daily returns normality assessed using Kolmogorov-Smirnov, Shapiro-Wilk and Anderson-Darling statistical tests. All tests concluded with null hypothesis rejection: "Input distribution is drawn from a Gaussian distribution".}
+	\label{tab:D_Norm_tests}
+\end{table}
+
+The Kolmogorov–Smirnov (KS) test is a goodness of fit test between two continuous distributions, comparing a sample distribution with a hypothesized cumulative distribution.
+For the returns, the KS test yielded a $P_{value} =0.000<0.05$, i.e. the $P_{value}$ did not meet the 5\% threshold, and the null hypothesis must be rejected.
+The KS tests is widely applicable with there being no fixed limit on the sample size, and no information needs to be known prior to testing, with regard to the underlying sample population distribution.
+However, a collection of input parameters e.g., scale, must be provided or else the test is invalidated \cite{KS_info}.
+The Shapiro-Wilk (SW) test is a pure normality test for a given distribution.
+For the returns, the SW test yielded a $P_{value} =1.41\times10^{-55}<0.05$, i.e. the $P_{value}$ did not meet the 5\% threshold, and the null hypothesis must be rejected. 
+The SW is a very basic but reliable test of normality and was found to yield the strongest statistical significance power in comparison to a range of other statistical tests, including KS, and the Anderson-Darling (AD) test \cite{Discover_stats_2009}.
+SW has no specific outlying disadvantages but does suffer from most downsides of statistical testing e.g., sample size, sensitivity to outliers, extent of kurtosis etc. 
+The AD tests whether a sample distribution has been drawn from a particular known distribution, in this case, a Gaussian.
+For the returns, the AD test yielded a $\textnormal{Statistic value} =126>0.918$, which is greater than the statistic value of 0.918 for a given significance of 5\%.
+The AD test has a strong sensitivity to departures from the the comparison distribution, however, this is almost only exclusively valid when the same size is $n<5000$, whereas the daily returns sample size is $n=15674$, yielding this effect omissible on this AD test.
+
+\begin{figure}[ht]
+	\includegraphics[width=\linewidth,keepaspectratio]{Figures/QQ_LOW.png}
+	\caption{Q-Q plot of BA stock daily returns (1962-2024) as the sample distribution, and a standard Gaussian as a theoretical distribution. Red: standardized reference line ("expected order statistics are scaled by the standard deviation of the given sample and have the mean added to them" \cite{statsmodels_py}).}
+	\label{fig:QQ}
+\end{figure}
+
+The normality was further assessed using a Q-Q plot in Fig. \ref{fig:QQ}.
+A distribution alike a Gaussian would sit along the red line, which has been standardized to fit the data.
+A strong correlation is seen within $-2\leq$ Theoretical Quantile $\leq 2$, with significant deviation outside this range on the tails, suggesting an non-Gaussian sample distribution.
+Whilst the daily returns may appear gaussian like at first glance, statistical tests and graphical analysis show that their is insufficient evidence to support the claim.
+
+\indent The BA stock daily returns was further assessed for different time periods, and different sampling frequencies, in Fig. \ref{fig:DR_1985}, \ref{fig:DR_2004}, and \ref{fig:DR_2023} in \textbf{Appendix \ref*{App:A}}.
+Returns in Fig. \ref{fig:DR_1985} and Fig. \ref{fig:DR_2004} displayed significantly similar trends, across sampling frequencies, suggesting long term stability for returns.
+Daily sampling saw small variations in the returns, whereas weekly or monthly sampling showed larger deviations from the origin indicating very short term stability in the stock price, with increased variation over longer time periods.
+It should be noted that the daily returns data only contained 69\% of the expected data points if sampling was conducted daily, but this should not effect the trends to a large degree considering the large existing sample size of 15674.
+Returns in Fig. \ref{fig:DR_2023} differ significantly, seeing reduced stability in the returns and a general increased volatility across sampling frequencies which is to be explored in section \ref{sec:DRift_VOl}.
+
+\subsection{Drift and Volatility}
+\label{sec:DRift_VOl}
+%Find annual drift and Volatility
+%How does data ranges affect this?
+%Any noticable differences in data/trends, why? give reasons... 737 MAX investigation
+%\begin{table}[h]
+%	\centering
+%	\resizebox{\columnwidth}{!}{\begin{tabular}{c c c c c}
+%		\toprule
+%		Time period& \multicolumn{2}{c}{Volatility (\%)} & \multicolumn{2}{c}{Daily Drift (\%)} \\
+%		\cmidrule(r){2-3}
+%		\cmidrule(r){4-5}
+%		to date & Daily & Annualised & Daily & Annualised  \\
+%		\midrule
+%		3 months & 1.85 & 29.4 & $-5.90\times10^{-3}$ & -1.49 \\
+%		6 months & 1.98 & 31.4 & $1.16\times10^{-1}$ & 29.2 \\
+%		9 months & 2.11 & 33.5 & $8.11\times10^{-2}$ & 20.4 \\
+%		12 months & 2.37 & 37.6 & $1.84\times10^{-2}$ & 4.63\\
+%		2 years & 2.31 & 37.0 & $-1.69\times10^{-2}$ & -4.25 \\
+%		5 years & 3.18 & 50.5 & $-1.02\times10^{-2}$ & -2.56 \\
+%		10 years & 2.49 & 39.5 & $4.49\times10^{-2}$ & 11.3 \\
+%		20 years & 2.18 & 34.7 & $5.27\times10^{-2}$ & 13.3 \\
+%		Total & 2.14 & 34.0 & $5.73\times10^{-2}$ & 14.4 \\
+%		\bottomrule
+%	\end{tabular}}
+%	\caption{BA stock volatility and drift data over a range of time periods to current date. Daily and annualised results.}
+%	\label{tab:VOL_DRIFT}
+%\end{table}
+\begin{figure}[ht]
+	\includegraphics[width=\linewidth,keepaspectratio]{Figures/Vol_Drift_HIGH.png}
+	\caption{Annualised BA stock Drift and Volatility as a function of time period to current date (April 2024).}
+	\label{fig:VolDri}
+\end{figure}
+\noindent On the 10th March 2019, Ethiopian Airlines flight 302 was the second new Boeing 737 MAX to crash sparking an international grounding of all 387 aircraft, and multiple investigations.
+These events, coupled with the onset of the Covid pandemic (massive reduction in air travel), are reflected in the negative drift and large annualised standard deviation 5 years to date seen in Fig. \ref{fig:VolDri}.
+Over the next couple years the stock recovered as the investigation concluded and measures were taken.
+Recent volatility in the stock price peaked due to an incident where one of the emergency door panels on an Alaska Airlines flight suffered a blow out, followed by other independent technical and general problems with Boeing's 737 MAX \cite{BA_issues}.
+These recent events are reflected in the 3 months to date stock drift becoming negative, and more generally, with the large annualised drift over the last 12 months.
+With the developing 737 MAX issues, and investors still feeling the aftereffects of 737 MAX investigations, the stock price is likely to be highly volatile over the subsequent months to possibly even years.
+I am very confident in stating so, as importantly, aircraft safety is scrutinized to the highest standard paramount in the aviation industry.
+With so many unraveling issues, investors are likely to be very wary of Boeing and could very easily be swayed to lose faith in the company where safer rival aircraft companies, such as Airbus, exist.
+
+\subsection{Hypothetical Principal}
+\begin{figure}[ht]
+	\includegraphics[width=\linewidth,keepaspectratio]{Figures/Pincipal_graph.png}
+	\caption{Normalised (to initial investment) returns for BA, Airbus SE corporation, S\&P 500 Index and a standardised savings account with 4.01\% compound interest.}
+	\label{fig:Pricipal}
+\end{figure}
+
+\begin{table}[ht]
+	\centering
+	\resizebox{\columnwidth}{!}{\begin{tabular}{c c c c c}
+		\toprule
+		& & \multicolumn{3}{c}{Normalised to original investment} \\
+		\cmidrule(r){3-5}
+		Investment Method & Final Return (\$) & Final Return (\%) & High (\%) & Low (\%)  \\
+		\midrule
+		Boeing & $5.40\times10^{6}$ & 432 & 1050 & 70.0 \\
+		Airbus & $1.11\times10^{7}$ & 891 & 910 & 45.0 \\
+		S\&P 500 & $5.87\times10^{6}$ & 470 & 474 & 61 \\
+		Savings acc & $2.74\times10^{6}$ & 220 & 220 & 100 \\
+		\bottomrule
+	\end{tabular}}
+	\caption{Normalised final return, high, low and monetary final return values for various investment methods.}
+	\label{tab:Principal}
+\end{table}
+
+\noindent A scenario is now considered where a £1 million BA stock investment is made 20 years ago.
+Its evolution, and overall progress is assessed against alternate investing strategies.
+£1 million will be converted to USD (exchange rate \$1 = £0.8) and invested on the 1st of January 2004, an amount equivalent to approximately £1.7 million, inflation adjusted (February 2024).
+Operating costs and dividends have been ignored for this analysis, focusing on the daily open and unadjusted close prices.
+Airbus SE corporation is used as a comparison due to them both being the two primary airliner manufacturers, with market duopoly, and similar financials e.g., Boeing's 2023 total revenue = \$77.8 billion, total equity and liabilities = \$137 Billion \cite{Boeing_finance_report}, Airbus' 2023 total revenue = \$70.0 Billion and total equity and liabilities = \$127 Billion \cite{Airbus_report}. 
+Alternatively, if the principal was invested in a fund tracking the S\&P 500 index, those returns are also calculated for comparison.
+Lastly, if the principal was invested into a continuously, annually compounding savings account, with an interest rate equal to the average LIBOR 12-month rate for the time period (4.01\%) \cite{LIBOR_RATES}, those returns are calculated.
+All of this data is presented in Fig. \ref{fig:Pricipal} and Table. \ref{tab:Principal}.
+Boeing yielded the maximum return on investment compared to other strategies, and trended better than both the S\&P 500 Index and a standardised savings account, but recent losses sees the S\&P 500 slightly outperforming Boeing. 
+Boeing has yielded worse returns, in comparison to its primary rival Airbus over the last half decade, with Airbus overtaking Boeing's stock price mid-2021, with it currently reaching historic highs, whereas Boeing sits at an equivalent stock price to itself, back in 2017.
+The primary motivator for this disparity is not the covid pandemic, as both where effected significantly, but the number of issues and investigations regarding the Boding 737 MAX which has tarnished Boeing's reputation and led to a lack of confidence from investors.
+With the recent turmoil regarding the 737 MAX and investigations, investing in Boeing is a very risky at the moment, whereas other investment strategies offer better returns and better security.
+Such a sentiment is further reflected in the companies long term issuer default ratings, with Boeing sitting at a 'BBB- stable' rating, conversely, Airbus sits at a higher 'A- stable' rating \cite{credi_ratings}.
+
+\section{Analysis Part II}
+\label{sec:two}
+\subsection{2-Step Binomial Model}
+\label{sec:Bi_model}
+%In Section \ref{sec:one}, analysis of the historical BA stock data was conducted, quantifying trends, studying behaviors and carrying out statistical tests.
+%Conversely, Section \ref{sec:two} attempts to explore the possible future movement of the BA stock via mathematical modelling.
+%Finalizing, with a discussion and recommendation of financial strategies, for a prospective BA stock investor.
+The Binomial option pricing model, is a mathematical tool used as a simplistic, but strong method to evaluate the possible future prices of a stock and options.
+An Option is a financial contract, where the owner of the option have the right, but not obligation, to buy or sell a specified underlying asset.
+An asset can be a bond, interest rates, currency etc, but for this investigation, the asset is the BA stock.
+Options have numerous forms and properties, however, this report focuses on `European call' and `European put' options.
+`European options', are options only exercisable at a specified future time, known as the maturity time.
+A call option, reserves the right to buy an underlying asset at some prefixed price, whereas a put option reserves the right to sell an underlying asset at some prefixed price.
+Both call and put options, are themselves optionally exercisable, and are executed at the owners discretion.
+\\
+\indent The model emerged following the formulation of the Black-Scholes theory, and serves as a robust numerical approximation for option pricing in both discrete and continuous-in-time scenarios \cite{Korn_2010}.
+The model used in this reports iterates over a fixed time step $dt$, for a discrete number of steps $n$, determining the change in stock price, from the previous time step.
+An initial stock price $S_{0}$ is specified as the first node, where for each node at given step, the stock price of the node can undergo an increase in price by a factor $u$ with probability $p$, or a decrease in price by a factor $d$ with probability $(1-p)$.
+The final two key parameters to determine the stock price evolution per iteration, is the annualised volatility $\sigma$, and the risk free interest rate $r$ \cite{Rendelman_1979}.
+The aforementioned objective parameters are summarised in Table. \ref{tab:Binomial}, which produces a `Binomial tree' which is presented as a noded lattice graphic in Fig. \ref{fig:BiTree}.
+\begin{table}[ht] % Single column table {}~][]#;
+	\centering
+	\resizebox{\columnwidth}{!}{\begin{tabular}{c c c c}
+		%\toprule
+		%\multicolumn{4}{c}{Normality Tests} \\
+		%\cmidrule(r){1-4}
+		\textbf{Variable} & \textbf{Value} & \textbf{Description} \\
+		\midrule
+		 & \textbf{Input} & \\
+		\cmidrule(r){2-2}
+		$S_{0}$ (\$) & 181.56 & Initial stock price \\
+		$n$ & 2 & number of time steps \\
+		$dt$ (years) & $1/12$ & change in time during a single step \\
+		$\sigma$ (\%) & 35.5 & Volatility annualised\\
+		$r$ (\%) & 4.01 & Risk free rate (LIBOR) \\
+		$K_{put}$ (\$) & 196.08 & Put option strike price \\
+		$K_{call}$ (\$) & 159.77 & Call option strike price \\
+		& \textbf{Output} & \\
+		\cmidrule(r){2-2}
+		$u$ & 1.11 & Upward factor \\
+		$d$ & 0.90 & Downward factor \\
+		$p$ & 0.49 & Probability of increase in price \\
+		$S_{T}$ (\$) & 222.8, 181.6, 147.9 & Stock price at maturity \\
+		$P_{put}$ (\$) & 19.62 & Put option fair price \\
+		$P_{call}$ (\$) & 25.90 & Call option fair price \\
+		 \bottomrule
+	\end{tabular}}
+	\caption{Input and output parameters of Binomial model analysis. Initial stock price extracted from final adjusted closing price of BA daily stock. Annualised volatility is calculated based on the last financial quarter. Risk free rate is the average 12-month LIBOR rate. Put option strike price determined as 8\% above initial stock price, and call option strike price is determined as 12\% below initial stock price.}
+	\label{tab:Binomial}
+\end{table}
+
+\begin{figure}[ht]
+	\includegraphics[width=\linewidth,keepaspectratio]{Figures/Binomila_tree_high.png}
+	\caption{Lattice tree of BA price produced via a 2 step Binomial model. Stock price above nodes. Along node connector lines is the probability of price increase or decrease.}
+	\label{fig:BiTree}
+\end{figure}
+
+\noindent The remaining unmentioned parameters, the call and put strike prices, are specified subjectively post-consideration of a variety of factors relating to volatility, the market, the asset, option terms, maturity time of contract etc.
+Significant attention is paid to the stock behaviour, and the increasing number of issues that Boeing has faced over the last half decade which have manifested volatile movements in the stock price and seen a loss of faith in the company. 
+Consequently, it is prudent to adopt a bearish attitude when approaching the future movement of the BA stock, an outlook quantitatively expressed in the downward movement probability $(1-p)$ being 0.51, reflecting a strong lack of certainty in the movement direction of the stock, where reductions in the stock price is more likely to happen.
+With these considerations, if an investor enacted a long (become owner of) put option, it would be advantageous in a bearish market to choose a strike price, higher than the initial stock price.
+Come maturity time, the contract will be `in-the-money', where the put option owner now has the right to sell the stock at a price much higher than the (assumed) decreased stock price.
+This advantage is visualised in the payoff function for long put option \cite{Options}: 
+\begin{equation}
+	\textnormal{Payoff} = max(K-S_{t},0).
+\end{equation}
+On the other hand, if the investor enacted a long call option, it would be advantageous in a bearish market to choose a strike price lower than the initial stock price, and lower than the price is expected to decrease to.
+Come maturity time, the contract will be `in-the-money', where the call option owner now has the right to buy the stock at a price even lower than the (assumed) decreased future stock price.
+This advantage is visualised in the payoff function for a long call option \cite{Options}:
+\begin{equation}
+	\textnormal{Payoff} = max(S_{t}-K,0).
+\end{equation}
+This approach, where a wide range of factors are considered, influenced the choosing of the strike prices, for the put and call options, seen in Table. \ref{tab:Binomial}.
+As stated, these prices are subjective and are believed, by the author, to be strong exemplar prices.
+With a binomial tree of the underlying asset's value (stock price), one can employ a numerical method to determine a fair price of an option acquired at the initial node or start time of the model \cite{Lec_Bi}.
+The Payoff functions can now be extended to find a given options' final profit or loss, through a simple expression involving the now determined fair option price \cite{Options}:
+\begin{equation}
+	\textnormal{Profit/Loss} = \textnormal{Payoff} - \textnormal{Option Price}.
+\end{equation}
+Simple graphical analysis of a call and put options' payoff function, and profit/loss, can be conducted to investigate the utility of employing options for the BA stock.
+\begin{figure}[ht]
+	\includegraphics[width=\linewidth,keepaspectratio]{Figures/Long_Call_graph.png}
+	\caption{Payoff function and profit/loss trend for a European long call option on BA stock found using a two-step binomial model with maturity time of two months using a strike price 12\% below initial stock price.}
+	\label{fig:Call}
+\end{figure}
+\begin{figure}[ht]
+	\includegraphics[width=\linewidth,keepaspectratio]{Figures/Long_Put_graph.png}
+	\caption{Payoff function and profit/loss trend for a European long put option on BA stock, found using a two-step binomial model, with maturity time of two months using a strike price 8\% above initial stock price.}
+	\label{fig:Put}
+\end{figure}
+
+\subsection{Investment Strategy}
+The straight forward investment of capital into a stock, such as BA, provides a liberty over the time frame involved with buying/selling the asset, whilst sacrificing a certainty in the direction of the price and therefore profit of investment.
+Options provide an alternative avenue of investment with a wide variety of customization opportunities.
+Crucially, options can be profitable even if the underlying asset decreases in value depending on what option is chosen and what the terms are. 
+However, with this greater customization come obvious downsides such as the requirement for time frames (maturity times), and the greater specificity for the profit criteria of option. 
+For example, purchasing a standard stock will yield a simple criteria for profit, if the stock prices increases above the price it was bought for, the stock can be sold for profit (minus any costs/premiums).
+On the other hand, options such as a put option, mandate a strike price is specified which, if speculated poorly or for another reason is a bad choice, the option can easily be `out-of-money' generating a net loss for no gain.
+But then again, purchasing a option aiming to capitalize on an expected bull market (likely to see price increases), but then being `out-of-money' due to a drastic stock price decrease, will only see a maximum loss of the price of the option.
+If an investor bought the stock itself, and was presented with this drastic price decrease, they could end up losing significantly more money.
+The complexity of options can be elevated for more rigorous investment strategies by, for example, implementing multiple options such as a bear spread, aiming to capitalise on an expected decrease in the underlying assets value via the purchasing of a combination of put or call options at different strike prices.
+Complex strategies, such as bear spreads and others, as usual, involve inherent risk and only find utility in specific scenarios which investors must consider before attempting to exploit such stratagems. 
+
+Investing capital into stock is the most commonly advised method for portfolio growth, with company stocks and stock markets tending, over the long term, to generally increase in value and therefore yield profits.
+However, options provide additional financial tools allowing investors to conduct hedging strategies to protect themselves from seen, and unseen risk, usually in more of the short term, but also find applicability in the long term.
+Hedging involves exploiting a variety of financial instruments to protect overall capital by risk mitigation.
+Inherent risk in investing is a necessary pre-condition for financial markets as per the `no-arbitrage principle', where no-risk opportunities undermine the sanctity of economic equilibrium and are simply unrealistic.
+The inevitability of risk involved with investing, motivates the implementation of Hedging to protect a portfolio's capital to a certain extent/try and minimise the amount of risk and losses a portfolio experiences in a dynamic market.
+A basic example would be to purchase a base stock, but during periods of volatility or uncertainty in the stocks future returns, one could purchase options hedging against the stock such if the base stock lost its intrinsic value, the impact of this loss would be softened by returns from the precautionary option bought.
+This would not likely protect the portfolio entirely from losses, but could ease the losses which do occur.
+Once again, the customization and variety in options and hedging strategies is vast and complex, requiring a comprehensive and continual analysis of data, trends, real-world events and more, to accurately and reliable construct financial strategies that can provide positive outcomes for a given investor.
+
+\subsection{Long Put or Call?}
+Firstly, all statistical tests and the Q-Q graphical assessment yielded a net outcome of rejecting the assertion that the BA stock follows a Gaussian distribution.
+This suggests the behavior of the stock is not purely random and its movement has been influenced by external factors.
+Furthermore, the stock has been shown to be very volatile with a consistent $\sigma>30\%$.
+As such, caution should be exercised when attempting to predict the behavior of the stock, especially when enacting put or call options.
+Additionally, the binomial probability of the stock price increasing in the next time step (Based on the last financial quarter) $p$, was found to be 0.49, suggesting a slight inclination for the stock price to decrease per time step (month).
+This should be interpreted as an indication of bearish market conditions for the BA stock, and any investor should be conscious of a current tendency for the stock price to decrease.
+Lastly, and pivotally, external factors which can influence the BA stock must be considered as they can have direct implications for the future trend of the stock price, and therefore the utility of put or call contracts.
+Employing a holistic approach, recognizing the significant number of real life events affecting the stocks' company, Boeing: 737 MAX investigations, Alaska airlines door blow-out, Boeing FedEx aircraft landing without front landing gear (08/05/2024), Transair Boeing aircraft crashing off the runaway at senegal airport (09/05/2024), Numerous whistle blowers testifying over safety concerns, etc \cite{Extra_issues}.
+All of these events have been shown, and will likely continue to effect Boeing's reputation, and by extension, investors trust in the stock to yield profits. 
+With all theses considerations, this report makes two recommendations for enacting options, with attention paid to profitability and time intervals:
+1) For a hypothetical long put, maximum profitability is likely to occur on short timescales, up to a maximum of a year, where a short term reductions in the BA stock price is expected such that a put option to sell the stock at a high strike price becomes very profitable.
+2) For a hypothetical long call, maximum profitability is likely to occur on longer timescales, minimum of 1 year, up to multiple years, where the the stock price is only likely to recover to current levels after a considerable period of time, and hence, a call option would only be profitable after a long time period when the stock regains investors trust.
+
+\section{Conclusions}
+\subsection{Summary of Findings}
+\begin{itemize}
+	\item BA stock showed a strong net positive growth until 2020
+	\item Statistical and graphical testing discredit the claim the stock returns are Gaussian-like
+	\item Volatility was consistently found to be high since 1985, $\sigma>30\%$, peaking at $\sigma\approx50\%$ (5 years to date trend)
+	\item Recent influx in annualised drift (peak of $\approx30\% $six months to date)
+	\item Airbus, and narrowly the S\&P 500 stock market index, outperformed Boeing's returns 20-years to date
+	\item Binomial analysis investment recommendations:
+	\begin{itemize}
+		\item Long European put option contracts for short term profits
+		\item Long European call option contracts for long term profits
+	\end{itemize}
+\end{itemize}
+
+\noindent\textbf{Recommendations:} A prospective investor should heed extreme caution if they are considering to purchase the BA stock currently.
+If they are adamant on Boeing, significant attention should be given to the possibility of utilising put contracts for short term profitability, and call contracts for long term profitability.
+These options provide the best protection for a forthcoming investors portfolio.
+If applicable, a prospective investor should pay particular interest to Boeing's rival, Airbus, exhibiting a much safer and larger return on investment.
+The last, least profitable, but safest option, would be to invest in a index fund tracker, a common and standard action for investors.
+
+\subsection{Discussion}
+Any financial investment strategy involving the stock market comes with associated risk, with dynamical markets externalizing uncertainty and unpredictability.
+There is no simple, and guaranteed method to achieve a net profit with no risk, a fact underpinned by the non-arbitrage principle.
+As such, the recommendations laid out by this report are instructions, predicated on statistical analysis, mathematical modelling results and the observations of external influencing factors.
+Any investor implementing these strategies acknowledges that the stated recommendations are not risk free, but are well-informed, educated actions aimed at generating profit for investors.
+
+\indent The recommendations are substantiated by evidence and observations highlighted here.
+The BA stock has been shown to be not behave randomly, a likely strong influence by external factors exists, with a high degree of movement reflected in the volatility and recent drift.
+BA was outperformed by both Airbus and the S\&P 500 index, where the covid pandemic is not a justifiable excuse for losses, as Airbus was equally effected, but still recuperated from the losses, further suggesting a governing influence by external factors.
+Over the last half decade Boeing has faced many issues, many still ongoing, and issues which are developing as this report is being written (Boeing FedEx Crash \cite{Extra_issues}), usually pertaining to its aviation division, which have hindered the stocks ability to generate growth following the pandemic.
+A lack of trust in the stock, and a caution to investing in boeing is a conclusion supported by a consensus of various financial sources \cite{Motley_2024,Forbes_2024}.
+
+\indent The recommendations are counterbalanced by opposing investment strategies supported by their own evidence.
+Proactive investors could exploit the volatility and current relatively low stock price to `play the market', by buying and selling the stock over very short timescales to acquire short term gains.
+Investors aiming at secure long term gains could capitalise on the current low stock price by investing in Boeing, predicting a strong net growth over the coming years to decades.
+This claim is substantiated by the current duopoly with Airbus that Boeing still retains over the aviation industry, where the demand for air travel is expected to recover to pre-pandemic levels by years end, and increase by a further 30\%, by 2028 (WATF forecast \cite{Air_future}).
+The security of Boeing's future revenue and potential growth is recognised with net booking of 611 aircraft orders in the final financial quarter of 2023, an enduring monthly aircraft production rate of 48 at the end of 2023, and an increase in the the number of aircraft delivered by 10\% from 2022 to 2023 \cite{Airbus_report}.
+Theses statistics indicate a resolute financial environment at Boeing, with an atmosphere prospective investors could utilise for investments for the purpose long term gains, a strategy realized by some financial advisors \cite{Forbes_2024}.
+
+%\indent Any financial investment strategy involving the stock market comes with associated risk with dynamics financial markets externalizing uncertainty, and unpredictability.
+%There is no simple, and guaranteed method to achieve a net profit with no risk, a fact which is underpinned by the nop-arbitrage principle.
+%As such, the recommendations laid out by this report are instructions, predicated on statistical analysis, mathematical modelling results and the observations of external influencing factors.
+%Any investor implementing these strategies acknowledges that the stated recommendations are not risk free, but are well-informed, educated actions that should be taken, aiming at generating a profit from investment.
+
+%\section{Acknowledgements}
+%I would like to extend my thank Dr. Noelia Noel for her tutorage of this financial derivatives module, and providing me with a platform to exercises my skills and explore a non-physics orientated topic, one which holds great personal interest for me and my future career.
+
+%----------------------------------------------------------------------------------------
+%	 REFERENCES
+%----------------------------------------------------------------------------------------
+
+
+\printbibliography % Output the bibliography
+ 
+%----------------------------------------------------------------------------------------
+
+\newpage
+
+\
+
+
+\newpage
+
+\onecolumn
+
+\appendix
+\section{BA stock returns}
+\label{App:A}
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=0.24,keepaspectratio]{Figures/1985_2024 HIST_low.png}
+	\caption{Percentage (decimal fraction) returns of BA stock between 1985 to 2024 in a probability density histogram for sampling frequencies: daily, weekly, monthly}
+	\label{fig:DR_1985}
+
+	\includegraphics[scale=0.24,keepaspectratio]{Figures/2004_2024_HistLOW.png}
+	\caption{Percentage (decimal fraction) returns of BA stock between 2004 to 2024 in a probability density histogram for sampling frequencies: daily, weekly, monthly}
+	\label{fig:DR_2004}
+
+	\includegraphics[scale=0.24,keepaspectratio]{Figures/2023_2024_hist_low.png}
+	\caption{Percentage (decimal fraction) returns of BA stock between 2023 to 2024 in a probability density histogram for sampling frequencies: daily, weekly, monthly}
+	\label{fig:DR_2023}
+\end{figure}
+
+\newpage
+
+\section{Exotics Summary}
+Exotic options are typically more complex options compared to their vanilla option counterparts, and importantly, are not traded on traditional exchanges, instead, being traded `Over-The-Counter (OTC). 
+Some key types of exotics include (non-exhaustive list): Binary options, Forward Start options, Compound options and Path Dependent options. 
+Exotic options offer unique financial opportunities and greater flexibility over investment strategies with the wide variety of option customization which is inaccessible on more standardised options. 
+As with any financial tool, there are associated risks with Exotics, where especially, Exotic options can have differing risks compared to traditional options. 
+Exotics options logically do not guarantee profit returns on investment and can lead to monetary losses,  with Exotics tending to cost more and presenting behaviour which is strongly disconnected traditional option trends \cite{Exotics}.
+
+\section{Theory of rational option pricing Summary}
+\label{App:C}
+The `Theory of Rational Pricing' by Robert Merton in 1973, examines and builds upon the research of Fischer and Black and Myron Scholes in `The Pricing of Options and Corporate Liabilities'. Merton Begins with exploring pricing theory, deriving theorems by positing weak assumptions which hold generality and can “gain universal support”. 
+He addresses specific two problems: The effect of dividends (cash and stock) on the underlying asset of an option. 
+The effect of changing the terms of the option contract from explicit strike price alterations or implicit evolving financial policies of the firm the contract is held with. 
+The paper continues with an analysis of rational pricing theory on put options leading into an alternate derivation of the Black-Scholes theory for option pricing utilising the aforementioned, weak assumptions.
+From this new derivation and theoretical standpoint, the Black-Scholes framework was expanded upon investigating a variety of features: Determining explicit formulas for put \& call options, warrants and deriving a new option, “down-and out”. 
+The new formulation of the Black-Scholes theory has three key attractions: final expression is a function of observable parameters, derivation founded on weak condition of avoiding dominance, and a simplicity in the expressions ability to be extended to calculate the rational price of any option type \cite{MERTON_73}.
+
+\section{Code}
+\label{App:D}
+The entire Python 3.11 script used for all data analysis, graphics and modelling has been uploaded to my GitHub page:
+\\
+
+\noindent\url{https://github.com/dp0768/Financial_Derivatives.git}
+
+\end{document}
